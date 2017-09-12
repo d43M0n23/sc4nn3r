@@ -1,11 +1,11 @@
 # sc4nn3r
 sc4nn3r Scripts
 
-last modify: 04.07.2017
+last modify: 11.09.2017
 bug or anything: d43M0n23@3xpl0it.com
 
 ## ABOUT.
-#metapl3x.sh
+#sc4nn3r.sh
 
 command:<pre><i><n>./sc4nn3r.sh file.mp4 another-file.wma yet-another.file.ogg.sh</pre></i></n>
 
