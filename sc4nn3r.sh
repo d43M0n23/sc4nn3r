@@ -86,7 +86,7 @@ echo '| 5.Nikto.                                        |'
 echo '| 6.Reverse IP Lookup.                            |'
 echo '| x.Quit.                                         |'
 echo '+-------------------------------------------------+'
-read -p "Attacker Nr (1-4)? " attacker
+read -p "Attacker Nr (1-x)? " attacker
 
 
 #PS3="Attacker Nr. - Ihre Wahl : "
@@ -112,6 +112,7 @@ Please enter a domain!
 		echo "CMSmap selected"
 		read -p "domain (e.g. google.com)? " cms_domain
 		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan.log
+		echo -e "${yell}Logfile is saved as cmsscan.log${clear}"
             	;;
         3)
 		echo "D-TECT selected"
@@ -127,6 +128,17 @@ Please enter a domain!
                 read -p "domain (e.g. google.com)? " nikto_domain
                 nikto -host http://$nikto_domain 2>&1 | tee -a nikto.log
                 ;;
+        6)
+                echo "Reverse IP"
+               # read -p "domain (e.g. google.com)? " nikto_domain
+                php /root/c0r3/01-frames/rivip-php/rivip.php 2>&1 | tee -a reverse.log
+                ;;
+        7)
+                echo "Joomlavs selected"
+                read -p "domain (e.g. google.com)? " joomla_domain
+		ruby /c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla.log
+                ;;
+
 
 	x)
 		break
