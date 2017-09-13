@@ -36,7 +36,7 @@ white='\033[37m'		#Schriftfarbe weiß
 ##Variablen
 DATE=$(date +%F)
 version=1.0
-vdate=11.09.2017
+vdate=13.09.2017
 
 # Local Destination
 #DESTINATION=/home/bk4/
@@ -51,12 +51,6 @@ vdate=11.09.2017
 #if [ ! -f $LOG ]; then touch $LOG; fi
 #if [ ! -d $DESTINATION ]; then mkdir $DESTINATION; fi
 
-#HELPS
-#wpscan --url http://bieradvent.bernyboi.com/ -enumerate
-#do_something 2>&1 | tee -a some_file
-#&>filename (only log)
-#bash your_script.sh 1>file.log 2>&1
-
 TOPDIR=`pwd`
 
 #################
@@ -69,9 +63,8 @@ echo '+-------------------------------------------------+'
 echo '|   This Script is subject to the GPL License!    |'
 echo '|   You can copy and change it!                   |'
 echo '+-------------------------------------------------+'
-echo "| to continue press Return       Date: ${vdate} |"
+echo "|                                Date: ${vdate} |"
 echo '+-------------------------------------------------+'
-#read -e TASTE
 sleep 2
 while [ "$attacker" != "q" ]
 #clear
@@ -84,35 +77,28 @@ echo '| 3.D-TECT.                                       |'
 echo '| 4.WPSeku.                                       |'
 echo '| 5.Nikto.                                        |'
 echo '| 6.Reverse IP Lookup.                            |'
+echo '| 7.Joomlavs.                                     |'
 echo '| x.Quit.                                         |'
 echo '+-------------------------------------------------+'
 read -p "Attacker Nr (1-x)? " attacker
 
-
-#PS3="Attacker Nr. - Ihre Wahl : "
-#attacker=("1" "2" "D-TECT" "quit")
-#select auswahl in Punkt1 Punkt2 Punkt3 Punkt4 Ende
-#select auswahl in "${attacker[@]}"
-	do
+do
 case $attacker in
-#case $auswahl in
         1)
 		echo "Wpscan selected"
 		read -p "domain (e.g. google.com)? " wp_domain
 		if [ $wp_domain ]; then
-		wpscan --url $wp_domain --enumerate 2>&1 | tee -a wpscan.log
-		echo -e "${yell}Logfile is saved as wpscan.log${clear}"
+		wpscan --url $wp_domain --enumerate 2>&1 | tee -a wpscan_${wp_domain}.log
+		echo -e "\n${yell}Logfile is saved as wpscan_${wp_domain}.log${clear}\n"
 		else
-        echo "
-Please enter a domain!
-"
-	fi
+        	echo -e "\nPlease enter a domain!\n"
+		fi
             	;;
         2)
 		echo "CMSmap selected"
 		read -p "domain (e.g. google.com)? " cms_domain
-		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan.log
-		echo -e "${yell}Logfile is saved as cmsscan.log${clear}"
+		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan_${cms_domain}.log
+		echo -e "\n${yell}Logfile is saved as cmsscan_${cms_domain}.log${clear}\n"
             	;;
         3)
 		echo "D-TECT selected"
@@ -121,22 +107,42 @@ Please enter a domain!
         4)
 		echo "WPSeku selected"
 		read -p "domain (e.g. google.com)? " wpseku_domain
-		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $wpseku_domain 2>&1 | tee -a wpseku.log
+		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $wpseku_domain 2>&1 | tee -a wpseku_${wpseku_domain}.log
+		echo -e "\n${yell}Logfile is saved as wpseku_${wpseku_domain}.log${clear}\n"
             	;;
         5)
                 echo "Nikto selected"
                 read -p "domain (e.g. google.com)? " nikto_domain
-                nikto -host http://$nikto_domain 2>&1 | tee -a nikto.log
+                nikto -host http://$nikto_domain 2>&1 | tee -a nikto_${nikto_domain}.log
+		echo -e "\n${yell}Logfile is saved as nikto_${nikto_domain}.log${clear}\n"
                 ;;
         6)
-                echo "Reverse IP"
-               # read -p "domain (e.g. google.com)? " nikto_domain
-                php /root/c0r3/01-frames/rivip-php/rivip.php 2>&1 | tee -a reverse.log
+                echo "IP or domain plz. "
+                php rev3r531p.php 2>&1 | tee -a reverse.log
+		echo -e "\n${yell}Logfile is saved as reverse_${reverse_domain}.log${clear}\n"
                 ;;
         7)
                 echo "Joomlavs selected"
                 read -p "domain (e.g. google.com)? " joomla_domain
-		ruby /c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla.log
+		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla_${joomla_domain}.log
+		echo -e "\n${yell}Logfile is saved as joomla_${joomla_domain}.log${clear}\n"
+                ;;
+        all)
+                echo "All selected"
+                read -p "domain (e.g. google.com)? " all_domain
+                if [ $all_domain ]; then
+                wpscan --url $all_domain --enumerate 2>&1 | tee -a all_${all_domain}.log
+#		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan_${cms_domain}.log
+#		python /root/c0r3/09-cms/D-TECT/d-tect.py
+		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $all_domain 2>&1 | tee -a all_${all_domain}.log
+		nikto -host http://$all_domain 2>&1 | tee -a all_${all_domain}.log
+		php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log
+		echo -e "${all_domain}\n"
+		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $all_domain --scan-all 2>&1 | tee -a all_${all_domain}.log
+                echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
                 ;;
 
 
@@ -145,7 +151,7 @@ Please enter a domain!
 		;;
         *)
 
-		echo $"Usage: $0 {start|stop|restart|condrestart|status}"
+		echo $"Usage: $0 {1-7|all|x}"
 		exit 1
 	esac
 done
