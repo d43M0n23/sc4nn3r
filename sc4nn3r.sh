@@ -78,10 +78,13 @@ echo '| 4.WPSeku.                                       |'
 echo '| 5.Nikto.                                        |'
 echo '| 6.Reverse IP Lookup.                            |'
 echo '| 7.Joomlavs.                                     |'
+echo '| a.All.                                          |'
 echo '| x.Quit.                                         |'
 echo '+-------------------------------------------------+'
 read -p "Attacker Nr (1-x)? " attacker
-
+if [ $attacker = a ]; then
+read -p "Wordpress or Joomla (w/j)? " cms_system
+fi
 do
 case $attacker in
         1)
@@ -127,19 +130,24 @@ case $attacker in
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla_${joomla_domain}.log
 		echo -e "\n${yell}Logfile is saved as joomla_${joomla_domain}.log${clear}\n"
                 ;;
-        all)
+        a)
                 echo "All selected"
                 read -p "domain (e.g. google.com)? " all_domain
                 if [ $all_domain ]; then
+		if [ $cms_system = w ]; then
                 wpscan --url $all_domain --enumerate 2>&1 | tee -a all_${all_domain}.log
 #		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan_${cms_domain}.log
 #		python /root/c0r3/09-cms/D-TECT/d-tect.py
 		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $all_domain 2>&1 | tee -a all_${all_domain}.log
 		nikto -host http://$all_domain 2>&1 | tee -a all_${all_domain}.log
-		php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log
-		echo -e "${all_domain}\n"
+		php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log && echo -e "${all_domain}\n"
+		echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
+		else
+		nikto -host http://$all_domain 2>&1 | tee -a all_${all_domain}.log
+                php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log && echo -e "${all_domain}\n"
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $all_domain --scan-all 2>&1 | tee -a all_${all_domain}.log
                 echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
+		fi
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
@@ -151,7 +159,7 @@ case $attacker in
 		;;
         *)
 
-		echo $"Usage: $0 {1-7|all|x}"
+		echo $"Usage: $0 {1-7|a|x}"
 		exit 1
 	esac
 done
