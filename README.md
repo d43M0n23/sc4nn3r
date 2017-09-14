@@ -10,12 +10,12 @@ sc4nn3r script combinat Wordpress and Joomla VScanner.
 
 Own-Scripts, Aux & Scanner-Frames:
 <ul><li>1.Wpscan. | Wordpress</li></ul>
-2.CMSmap. | Wordpress - Joomla - Durpal
-3.D-TECT. | Wordpress
-4.WPSeku. | Wordpress
-5.Nikto.  | All
-6.Reverse IP Lookup. | All
-7.Joomlavs. | Joomla
+<ul><li>2.CMSmap. | Wordpress - Joomla - Durpal</li></ul>
+<ul><li>3.D-TECT. | Wordpress</li></ul>
+<ul><li>4.WPSeku. | Wordpress</li></ul>
+<ul><li>5.Nikto.  | All</li></ul>
+<ul><li>6.Reverse IP Lookup. | All</li></ul>
+<ul><li>7.Joomlavs. | Joomla</li></ul>
 
 command:<pre><i><n>./sc4nn3r.sh </pre></i></n>
 
