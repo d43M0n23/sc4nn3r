@@ -44,6 +44,8 @@ vdate=13.09.2017
 # Logfile
 #LOG="bk4.log"
 
+# Email
+email=alex@xcoorp.com
 # Tools install
 #if ! hash exiftool 2>/dev/null; then sudo apt-get update && apt-get upgrade -y; sudo apt-get install --yes exiftool ; fi
 
@@ -51,6 +53,12 @@ vdate=13.09.2017
 #if [ ! -f $LOG ]; then touch $LOG; fi
 #if [ ! -d $DESTINATION ]; then mkdir $DESTINATION; fi
 
+# DELETE OLD LOGS?
+# 1=yes/0=no
+kill_logs=0
+if [ $kill_logs = 1 ]; then rm *.log; fi
+
+#WORKING DIR
 TOPDIR=`pwd`
 
 #################
@@ -71,13 +79,14 @@ while [ "$attacker" != "q" ]
 echo '+-------------------------------------------------+'
 echo '| Own-Scripts, Aux & Scanner-Frames               |'
 echo '+-------------------------------------------------+'
-echo '| 1.Wpscan.                                       |'
-echo '| 2.CMSmap.                                       |'
-echo '| 3.D-TECT.                                       |'
-echo '| 4.WPSeku.                                       |'
-echo '| 5.Nikto.                                        |'
-echo '| 6.Reverse IP Lookup.                            |'
-echo '| 7.Joomlavs.                                     |'
+echo '| 1.Wpscan. | Wordpress                           |'
+echo '| 2.CMSmap. | Wordpress - Joomla - Durpal         |'
+echo '| 3.D-TECT. | Wordpress                           |'
+echo '| 4.WPSeku. | Wordpress                           |'
+echo '| 5.Nikto.  | All                                 |'
+echo '| 6.Reverse IP Lookup. | All                      |'
+echo '| 7.Joomlavs. | Joomla                            |'
+#echo '| 8.Joomscan. | Joomla                            |'
 echo '| a.All.                                          |'
 echo '| x.Quit.                                         |'
 echo '+-------------------------------------------------+'
@@ -93,6 +102,7 @@ case $attacker in
 		if [ $wp_domain ]; then
 		wpscan --url $wp_domain --enumerate 2>&1 | tee -a wpscan_${wp_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpscan_${wp_domain}.log${clear}\n"
+		mail -s "sc4nn3r: wpscan_${wp_domain}" $email < wpscan_${wp_domain}.log -aFrom:sc4nn3r@3xpl0it.com
 		else
         	echo -e "\nPlease enter a domain!\n"
 		fi
@@ -130,6 +140,13 @@ case $attacker in
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla_${joomla_domain}.log
 		echo -e "\n${yell}Logfile is saved as joomla_${joomla_domain}.log${clear}\n"
                 ;;
+#        8) - OUTDATE !!
+#                echo "Joomscann selected"
+#                read -p "domain (e.g. google.com)? " joomscann_domain
+#                joomscan -u $joomscan_domain 2>&1 | tee -a joomscan_${joomscan_domain}.log
+#                echo -e "\n${yell}Logfile is saved as joomscan_${joomscan_domain}.log${clear}\n"
+#                ;;
+
         a)
                 echo "All selected"
                 read -p "domain (e.g. google.com)? " all_domain
