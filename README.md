@@ -8,8 +8,8 @@ bug or anything: d43M0n23@3xpl0it.com
 #sc4nn3r.sh
 sc4nn3r script combinat Wordpress and Joomla VScanner.
 
-Own-Scripts, Aux & Scanner-Frames:
-1.Wpscan. | Wordpress
+Own-Scripts, Aux & Scanner-Frames:</n>
+1.Wpscan. | Wordpress</n>
 2.CMSmap. | Wordpress - Joomla - Durpal
 3.D-TECT. | Wordpress
 4.WPSeku. | Wordpress
