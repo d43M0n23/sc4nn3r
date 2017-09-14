@@ -130,9 +130,10 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as nikto_${nikto_domain}.log${clear}\n"
                 ;;
         6)
-                echo "IP or domain plz. "
-                php rev3r531p.php 2>&1 | tee -a reverse.log
-		echo -e "\n${yell}Logfile is saved as reverse_${reverse_domain}.log${clear}\n"
+                echo "IP Lookup selected"
+		read -p "domain or ip (e.g. google.com)? " rev_domain
+                php rev3r531p.php $rev_domain 2>&1 | tee -a reverse_${rev_domain}.log
+		echo -e "\n${yell}Logfile is saved as reverse_${rev_domain}.log${clear}\n"
                 ;;
         7)
                 echo "Joomlavs selected"

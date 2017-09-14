@@ -1,16 +1,16 @@
 <?php 
-
-$ip = readline("Target Domain name Or Ip :");
-$ch = curl_init();                    
-    $url = "http://domains.yougetsignal.com/domains.php"; 
+$ip = $argv[1];
+#$ip = readline("Target Domain name Or Ip :");
+$ch = curl_init();
+    $url = "http://domains.yougetsignal.com/domains.php";
     curl_setopt($ch, CURLOPT_URL,$url);
-    curl_setopt($ch, CURLOPT_POST, true); 
-    curl_setopt($ch, CURLOPT_POSTFIELDS, "remoteAddress=$ip"); 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-    $output = curl_exec ($ch); 
-    curl_close ($ch); 
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, "remoteAddress=$ip");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec ($ch);
+    curl_close ($ch);
 
-   $x = $output; 
+   $x = $output;
 
 $y=json_decode($x);
 
@@ -38,7 +38,6 @@ echo PHP_EOL;
 $z = count($y->domainArray);
 for ($k=0;$k<$z;$k++){
 	echo"\033[1;32m[+]\033[0m".$y->domainArray[$k][0].PHP_EOL;
-	   
 
 	}
 
