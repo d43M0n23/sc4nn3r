@@ -110,8 +110,8 @@ case $attacker in
 		if [ $wp_domain ]; then
 		wpscan --url $wp_domain --enumerate 2>&1 | tee -a wpscan_${wp_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpscan_${wp_domain}.log${clear}\n"
-		$scanner = Wpscan_${wp_domain}
-		$scanlog = wpscan_${wp_domain}.log
+		$scanner=Wpscan_${wp_domain}
+		$scanlog=wpscan_${wp_domain}.log
 		sh_mail
 		else
         	echo -e "\nPlease enter a domain!\n"
@@ -123,8 +123,8 @@ case $attacker in
 		if [ $cms_domain ]; then
 		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan_${cms_domain}.log
 		echo -e "\n${yell}Logfile is saved as cmsscan_${cms_domain}.log${clear}\n"
-                $scanner = CMSscan_${cms_domain}
-                $scanlog = CMSscan_${cms_domain}.log
+                $scanner=CMSscan_${cms_domain}
+                $scanlog=CMSscan_${cms_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -146,8 +146,8 @@ case $attacker in
 		if [ $wpseku_domain ]; then
 		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $wpseku_domain 2>&1 | tee -a wpseku_${wpseku_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpseku_${wpseku_domain}.log${clear}\n"
-                $scanner = WPSeku_${wpseku_domain}
-                $scanlog = wpseku_${wpseku_domain}.log
+                $scanner=WPSeku_${wpseku_domain}
+                $scanlog=wpseku_${wpseku_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -159,8 +159,8 @@ case $attacker in
 		if [ $nikto_domain ]; then
                 nikto -host http://$nikto_domain 2>&1 | tee -a nikto_${nikto_domain}.log
 		echo -e "\n${yell}Logfile is saved as nikto_${nikto_domain}.log${clear}\n"
-                $scanner = Nikto_${nikto_domain}
-                $scanlog = nikto_${nikto_domain}.log
+                $scanner=Nikto_${nikto_domain}
+                $scanlog=nikto_${nikto_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -172,8 +172,8 @@ case $attacker in
 		if [ $rev_domain ]; then
                 php rev3r531p.php $rev_domain 2>&1 | tee -a reverse_${rev_domain}.log
 		echo -e "\n${yell}Logfile is saved as reverse_${rev_domain}.log${clear}\n"
-                $scanner = Reverse_${rev_domain}
-                $scanlog = reverse_${rev_domain}.log
+                $scanner=Reverse_${rev_domain}
+                $scanlog=reverse_${rev_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -212,15 +212,18 @@ case $attacker in
 		nikto -host http://$all_domain 2>&1 | tee -a all_${all_domain}.log
 		php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log && echo -e "${all_domain}\n"
 		echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
+                $scanner=Allscan_${all_domain}
+                $scanlog=all_${all_domain}.log
+                sh_mail
 		else
 		nikto -host http://$all_domain 2>&1 | tee -a all_${all_domain}.log
                 php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log && echo -e "${all_domain}\n"
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $all_domain --scan-all 2>&1 | tee -a all_${all_domain}.log
                 echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
-		fi
-                $scanner = Allscan_${all_domain}
-                $scanlog = all_${all_domain}.log
+                $scanner=Allscan_${all_domain}
+                $scanlog=all_${all_domain}.log
                 sh_mail
+		fi
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
