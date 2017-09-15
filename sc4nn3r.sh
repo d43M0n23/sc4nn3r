@@ -120,6 +120,7 @@ case $attacker in
         2)
 		echo "CMSmap selected"
 		read -p "domain (e.g. google.com)? " cms_domain
+		if [ $cms_domain ]; then
 		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan_${cms_domain}.log
 		echo -e "\n${yell}Logfile is saved as cmsscan_${cms_domain}.log${clear}\n"
                 $scanner = CMSscan_${cms_domain}
@@ -132,20 +133,21 @@ case $attacker in
         3)
 		echo "D-TECT selected"
 		python /root/c0r3/09-cms/D-TECT/d-tect.py
-                $scanner = Wpscan_${wp_domain}
-                $scanlog = wpscan_${wp_domain}.log
-                sh_mail
-                else
-                echo -e "\nPlease enter a domain!\n"
-                fi
+#                $scanner = Wpscan_${wp_domain}
+#                $scanlog = wpscan_${wp_domain}.log
+#                sh_mail
+#                else
+#                echo -e "\nPlease enter a domain!\n"
+#                fi
 		;;
         4)
 		echo "WPSeku selected"
 		read -p "domain (e.g. google.com)? " wpseku_domain
+		if [ $wpseku_domain ]; then
 		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $wpseku_domain 2>&1 | tee -a wpseku_${wpseku_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpseku_${wpseku_domain}.log${clear}\n"
-                $scanner = Wpscan_${wp_domain}
-                $scanlog = wpscan_${wp_domain}.log
+                $scanner = WPSeku_${wpseku_domain}
+                $scanlog = wpseku_${wpseku_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -154,8 +156,11 @@ case $attacker in
         5)
                 echo "Nikto selected"
                 read -p "domain (e.g. google.com)? " nikto_domain
+		if [ $nikto_domain ]; then
                 nikto -host http://$nikto_domain 2>&1 | tee -a nikto_${nikto_domain}.log
 		echo -e "\n${yell}Logfile is saved as nikto_${nikto_domain}.log${clear}\n"
+                $scanner = Nikto_${nikto_domain}
+                $scanlog = nikto_${nikto_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -164,10 +169,11 @@ case $attacker in
         6)
                 echo "IP Lookup selected"
 		read -p "domain or ip (e.g. google.com)? " rev_domain
+		if [ $rev_domain ]; then
                 php rev3r531p.php $rev_domain 2>&1 | tee -a reverse_${rev_domain}.log
 		echo -e "\n${yell}Logfile is saved as reverse_${rev_domain}.log${clear}\n"
-                $scanner = Wpscan_${wp_domain}
-                $scanlog = wpscan_${wp_domain}.log
+                $scanner = Reverse_${rev_domain}
+                $scanlog = reverse_${rev_domain}.log
                 sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
@@ -176,6 +182,7 @@ case $attacker in
         7)
                 echo "Joomlavs selected"
                 read -p "domain (e.g. google.com)? " joomla_domain
+		if [ $joomla_domain ]; then
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla_${joomla_domain}.log
 		echo -e "\n${yell}Logfile is saved as joomla_${joomla_domain}.log${clear}\n"
                 $scanner = Wpscan_${wp_domain}
