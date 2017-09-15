@@ -61,6 +61,14 @@ if [ $kill_logs = 1 ]; then rm *.log; fi
 #WORKING DIR
 TOPDIR=`pwd`
 
+
+########  START FUNCTIONS ########
+# -------------------------------------------
+# send email with report from single scann
+# -------------------------------------------
+sh_mail () {
+mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:sc4nn3r@3xpl0it.com
+}
 #################
 clear
 #################
@@ -102,7 +110,9 @@ case $attacker in
 		if [ $wp_domain ]; then
 		wpscan --url $wp_domain --enumerate 2>&1 | tee -a wpscan_${wp_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpscan_${wp_domain}.log${clear}\n"
-		mail -s "sc4nn3r: wpscan_${wp_domain}" $email < wpscan_${wp_domain}.log -aFrom:sc4nn3r@3xpl0it.com
+		$scanner = Wpscan_${wp_domain}
+		$scanlog = wpscan_${wp_domain}.log
+		sh_mail
 		else
         	echo -e "\nPlease enter a domain!\n"
 		fi
@@ -112,40 +122,75 @@ case $attacker in
 		read -p "domain (e.g. google.com)? " cms_domain
 		python /root/c0r3/09-cms/CMSmap/cmsmap.py -t $cms_domain -o cmsscan_${cms_domain}.log
 		echo -e "\n${yell}Logfile is saved as cmsscan_${cms_domain}.log${clear}\n"
-            	;;
+                $scanner = CMSscan_${cms_domain}
+                $scanlog = CMSscan_${cms_domain}.log
+                sh_mail
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
+    		;;
         3)
 		echo "D-TECT selected"
 		python /root/c0r3/09-cms/D-TECT/d-tect.py
+                $scanner = Wpscan_${wp_domain}
+                $scanlog = wpscan_${wp_domain}.log
+                sh_mail
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
 		;;
         4)
 		echo "WPSeku selected"
 		read -p "domain (e.g. google.com)? " wpseku_domain
 		python /root/c0r3/09-cms/WPSeku/wpseku.py -t $wpseku_domain 2>&1 | tee -a wpseku_${wpseku_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpseku_${wpseku_domain}.log${clear}\n"
+                $scanner = Wpscan_${wp_domain}
+                $scanlog = wpscan_${wp_domain}.log
+                sh_mail
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
             	;;
         5)
                 echo "Nikto selected"
                 read -p "domain (e.g. google.com)? " nikto_domain
                 nikto -host http://$nikto_domain 2>&1 | tee -a nikto_${nikto_domain}.log
 		echo -e "\n${yell}Logfile is saved as nikto_${nikto_domain}.log${clear}\n"
+                sh_mail
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
                 ;;
         6)
                 echo "IP Lookup selected"
 		read -p "domain or ip (e.g. google.com)? " rev_domain
                 php rev3r531p.php $rev_domain 2>&1 | tee -a reverse_${rev_domain}.log
 		echo -e "\n${yell}Logfile is saved as reverse_${rev_domain}.log${clear}\n"
+                $scanner = Wpscan_${wp_domain}
+                $scanlog = wpscan_${wp_domain}.log
+                sh_mail
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
                 ;;
         7)
                 echo "Joomlavs selected"
                 read -p "domain (e.g. google.com)? " joomla_domain
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $joomla_domain --scan-all 2>&1 | tee -a joomla_${joomla_domain}.log
 		echo -e "\n${yell}Logfile is saved as joomla_${joomla_domain}.log${clear}\n"
+                $scanner = Wpscan_${wp_domain}
+                $scanlog = wpscan_${wp_domain}.log
+                sh_mail
+                else
+                echo -e "\nPlease enter a domain!\n"
+                fi
                 ;;
 #        8) - OUTDATE !!
 #                echo "Joomscann selected"
 #                read -p "domain (e.g. google.com)? " joomscann_domain
 #                joomscan -u $joomscan_domain 2>&1 | tee -a joomscan_${joomscan_domain}.log
 #                echo -e "\n${yell}Logfile is saved as joomscan_${joomscan_domain}.log${clear}\n"
+#		 GITHUB SOURCE https://github.com/rezasp/joomscan
 #                ;;
 
         a)
@@ -166,6 +211,9 @@ case $attacker in
 		ruby /root/c0r3/09-cms/joomlavs/joomlavs.rb -u $all_domain --scan-all 2>&1 | tee -a all_${all_domain}.log
                 echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
 		fi
+                $scanner = Allscan_${all_domain}
+                $scanlog = all_${all_domain}.log
+                sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
