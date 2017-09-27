@@ -161,6 +161,7 @@ case $attacker in
 		echo "Wpscan selected"
 		read -p "domain (e.g. google.com)? " wp_domain
 		if [ $wp_domain ]; then
+		wpscan --update
 		wpscan --url $wp_domain --enumerate 2>&1 | tee -a wpscan_${wp_domain}.log
 		echo -e "\n${yell}Logfile is saved as wpscan_${wp_domain}.log${clear}\n"
 		scanner=Wpscan_${wp_domain}
@@ -179,8 +180,7 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as cmsscan_${cms_domain}.log${clear}\n"
                 scanner=CMSscan_${cms_domain}
                 scanlog=CMSscan_${cms_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
@@ -203,8 +203,7 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as wpseku_${wpseku_domain}.log${clear}\n"
                 scanner=WPSeku_${wpseku_domain}
                 scanlog=wpseku_${wpseku_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
@@ -217,8 +216,7 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as nikto_${nikto_domain}.log${clear}\n"
                 scanner=Nikto_${nikto_domain}
                 scanlog=nikto_${nikto_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
@@ -231,8 +229,7 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as reverse_${rev_domain}.log${clear}\n"
                 scanner=Reverse_${rev_domain}
                 scanlog=reverse_${rev_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
@@ -245,8 +242,7 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as joomla_${joomla_domain}.log${clear}\n"
                 scanner=Wpscan_${wp_domain}
                 scanlog=wpscan_${wp_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
                 else
                 echo -e "\nPlease enter a domain!\n"
                 fi
@@ -273,8 +269,7 @@ case $attacker in
 		echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
                 scanner=Allscan_${all_domain}
                 scanlog=all_${all_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
 		else
 		nikto -host http://$all_domain 2>&1 | tee -a all_${all_domain}.log
                 php rev3r531p.php 2>&1 | tee -a reverse_${all_domain}.log && echo -e "${all_domain}\n"
@@ -282,8 +277,7 @@ case $attacker in
                 echo -e "\n${yell}Logfile is saved as all_${all_domain}.log${clear}\n"
                 scanner=Allscan_${all_domain}
                 scanlog=all_${all_domain}.log
-		mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:cms-sc4nn3r@3xpl0it.com
-                #sh_mail
+                sh_mail
 		fi
                 else
                 echo -e "\nPlease enter a domain!\n"

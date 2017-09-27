@@ -1,4 +1,4 @@
-<?php 
+<?php
 $ip = $argv[1];
 #$ip = readline("Target Domain name Or Ip :");
 $ch = curl_init();
