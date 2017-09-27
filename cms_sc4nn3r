@@ -84,7 +84,9 @@ if [ "$1"  = "--deinstall" ]; then
 echo -e "\n${turk}You have select the deinstall Feature${clear}"
 sleep 2
 rm -f /usr/bin/cms_sc4nn3r
-rm -f /usr/bin/share/cms_sc4nn3r/
+cd /usr/share/
+rm -r cms_sc4nn3r/
+cd
 exit
 fi
 
