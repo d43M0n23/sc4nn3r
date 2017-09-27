@@ -110,9 +110,9 @@ TOPDIR=`pwd`
 # -------------------------------------------
 # send email with report from single scann
 # -------------------------------------------
-sh_mail () {
-mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:sc4nn3r@3xpl0it.com
-}
+#sh_mail () {
+#mail -s "sc4nn3r: ${scanner}" $email < $scanlog -aFrom:sc4nn3r@3xpl0it.com
+#}
 
 #################
 clear
@@ -124,7 +124,7 @@ echo "|     / ___/ ___/ // /_/ __ \/ __ \ /_ </ ___/    |"
 echo "|    (__  ) /__/__  __/ / / / / / /__/ / /        |"
 echo "|   /____/\___/  /_/ /_/ /_/_/ /_/____/_/         |"
 echo '+-------------------------------------------------+'
-echo "|   Version ${version} (c)opyright 2017 by               |"
+echo "|   Version ${version} (c)opyright 2017 by              |"
 echo '|   DaemoN d43M0n23@3xpl0it.com                   |'
 echo '+-------------------------------------------------+'
 echo '|   This Script is subject to the GPL License!    |'
